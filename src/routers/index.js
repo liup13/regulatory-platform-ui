@@ -38,7 +38,7 @@ router.beforeEach(async (to, from, next) => {
 	const title = import.meta.env.VITE_GLOB_APP_TITLE;
 	document.title = to.title ? `${to.title} - ${title}` : title;
 	if (to.path === LOGIN_URL) {
-		if (globalStore.token) return next(from.fullPath);
+		// if (globalStore.token) return next(from.fullPath);
 		resetRouter();
 		return next();
 	}

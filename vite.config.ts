@@ -41,7 +41,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			// 跨域代理配置
 			proxy: {
 				"/api": {
-					target: "https://gitee.com", // easymock
+					target: "http://1.117.58.93:80", // easymock
 					changeOrigin: true,
 					rewrite: path => path.replace(/^\/api/, "")
 				}

@@ -5,6 +5,7 @@ import "@/styles/common.scss";
 import "@/assets/iconfont/iconfont.scss";
 // import "@/assets/fonts/font.scss";
 import elementIcon from "@/plugins/element-icon";
+// import zhCN from "element-plus/dist/locale/zh-cn.mjs"; //引入中文
 import "element-plus/dist/index.css";
 import "@/styles/element.scss";
 import "@/styles/element-dark.scss";
@@ -22,7 +23,7 @@ import errorHandler from "@/utils/errorHandler";
 //  自定义指令
 import directives from "@/directives/index";
 //  mockJs
-import "./mock/index";
+// import "./mock/index";
 
 const app = createApp(App);
 

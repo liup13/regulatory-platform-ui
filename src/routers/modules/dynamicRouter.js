@@ -28,6 +28,7 @@ export const initDynamicRouter = async () => {
 		} else {
 			list = authStore.flatMenuListGet;
 		}
+		console.log(list);
 		// 添加动态路由
 		list.forEach(item => {
 			item.children && delete item.children;

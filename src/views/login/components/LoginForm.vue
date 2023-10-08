@@ -1,7 +1,7 @@
 <template>
 	<el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="large">
-		<el-form-item prop="username">
-			<el-input v-model="loginForm.username" placeholder="用户名：随便填">
+		<el-form-item prop="account">
+			<el-input v-model="loginForm.account" placeholder="用户名：随便填">
 				<template #prefix>
 					<el-icon class="el-input__icon"><user /></el-icon>
 				</template>
@@ -24,7 +24,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
-import { ElNotification } from "element-plus";
+import { ElNotification, ElMessage } from "element-plus";
 import { GlobalStore } from "@/stores";
 import { TabsStore } from "@/stores/modules/tabs";
 import { HOME_URL } from "@/config/config";
@@ -40,20 +40,27 @@ const keepAlive = KeepAliveStore();
 // 定义 formRef（校验规则）
 const loginFormRef = ref();
 const loginRules = reactive({
-	username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+	account: [{ required: true, message: "请输入用户名", trigger: "blur" }],
 	password: [{ required: true, message: "请输入密码", trigger: "blur" }]
 });
 
 const loading = ref(false);
-const loginForm = reactive({ username: "", password: "" });
+const loginForm = reactive({ account: "", password: "" });
 const login = formEl => {
 	if (!formEl) return;
 	formEl.validate(async valid => {
 		if (!valid) return;
 		loading.value = true;
 		try {
-			const { data } = await pageLogin();
-			globalStore.setToken(data.token);
+			const { data } = await pageLogin(loginForm);
+			if (data.code == -1) {
+				ElMessage({
+					message: data.message,
+					type: "warning"
+				});
+				return false;
+			}
+			globalStore.setToken(data.data);
 			await initDynamicRouter();
 			tabsStore.closeMultipleTab();
 			keepAlive.setKeepAliveName();

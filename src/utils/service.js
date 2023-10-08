@@ -1,9 +1,14 @@
 import axios from "axios";
-// let devUrl = import.meta.env.VITE_BASE_URL;
-// let prodUrl = import.meta.env.VITE_GLOB_BASE_URL;
+import { GlobalStore } from "@/stores";
+
+const globalStore = GlobalStore();
+
 const service = axios.create({
-	baseURL: "",
-	timeout: 5000
+	baseURL: process.env.NODE_ENV === "development" ? "/api" : process.env.VUE_APP_BASE_API,
+	timeout: 5000,
+	headers: {
+		accessToken: globalStore.token
+	}
 });
 service.interceptors.request.use(
 	config => {

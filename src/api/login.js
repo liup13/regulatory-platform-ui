@@ -3,20 +3,21 @@ import service from "@/utils/service.js";
 export const routerList = () => {
 	return service({
 		method: "GET",
-		url: "/api/router/list"
+		url: "/router/list"
 	});
 };
 
-export const pageLogin = () => {
+export const pageLogin = data => {
 	return service({
-		method: "GET",
-		url: "/api/login"
+		method: "POST",
+		url: "/zhongxun/api/sUser/login",
+		data: data
 	});
 };
 
 export const getAuthButton = () => {
 	return service({
 		method: "GET",
-		url: "/api/auth/button"
+		url: "/auth/button"
 	});
 };
