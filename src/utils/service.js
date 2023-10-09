@@ -5,13 +5,14 @@ const globalStore = GlobalStore();
 
 const service = axios.create({
 	baseURL: process.env.NODE_ENV === "development" ? "/api" : process.env.VUE_APP_BASE_API,
-	timeout: 5000,
-	headers: {
-		accessToken: globalStore.token
-	}
+	timeout: 5000
+	// headers: {
+	// 	accessToken: globalStore.token
+	// }
 });
 service.interceptors.request.use(
 	config => {
+		config.headers.accessToken = globalStore.token;
 		return config;
 	},
 	error => {
