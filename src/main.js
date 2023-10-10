@@ -5,7 +5,8 @@ import "@/styles/common.scss";
 import "@/assets/iconfont/iconfont.scss";
 // import "@/assets/fonts/font.scss";
 import elementIcon from "@/plugins/element-icon";
-// import zhCN from "element-plus/dist/locale/zh-cn.mjs"; //引入中文
+import ElementPlus from "element-plus";
+import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import "element-plus/dist/index.css";
 import "@/styles/element.scss";
 import "@/styles/element-dark.scss";
@@ -29,4 +30,13 @@ const app = createApp(App);
 
 app.config.errorHandler = errorHandler;
 
-app.use(router).use(I18n).use(pinia).use(elementIcon).use(directives).mount("#app");
+app
+	.use(router)
+	.use(I18n)
+	.use(pinia)
+	.use(elementIcon)
+	.use(directives)
+	.use(ElementPlus, {
+		locale: zhCn
+	})
+	.mount("#app");

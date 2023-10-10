@@ -50,6 +50,8 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
+    ElTreeSelect: typeof import('element-plus/es')['ElTreeSelect']
+    ElTreeV2: typeof import('element-plus/es')['ElTreeV2']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Loading: typeof import('./src/components/Loading/index.vue')['default']
     LockScreen: typeof import('./src/components/LockScreen/src/LockScreen.vue')['default']

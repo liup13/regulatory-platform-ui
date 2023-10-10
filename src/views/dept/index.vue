@@ -5,10 +5,13 @@
 			<el-button type="primary" @click="onAdd">新增</el-button>
 		</div>
 		<el-table :data="tableData" style="width: 100%">
-			<el-table-column prop="name" label="姓名" />
-			<el-table-column prop="phone" label="电话" />
-			<el-table-column prop="email" label="邮箱" />
 			<el-table-column prop="department" label="部门" />
+			<el-table-column prop="dDescrible" label="描述" />
+			<el-table-column prop="parentDepartmentObject" label="上级部门">
+				<template #default="scope">
+					<span>{{ scope.row.parentDepartmentObject ? scope.row.parentDepartmentObject.department : "" }}</span>
+				</template>
+			</el-table-column>
 			<el-table-column label="操作" width="260" fixed="right">
 				<template #default="scope">
 					<el-button size="small" @click="openUpdate(scope.row)">修改</el-button>
@@ -42,33 +45,24 @@
 			@close="closedept"
 		>
 			<el-form ref="deptFormRef" :model="deptForm" :rules="deptRules" size="large">
-				<el-form-item prop="account" label="账号">
-					<el-input v-model="deptForm.account" placeholder="账号"></el-input>
+				<el-form-item prop="department" label="部门名称">
+					<el-input v-model="deptForm.department" placeholder="部门名称"></el-input>
 				</el-form-item>
-				<el-form-item prop="name" label="姓名">
-					<el-input v-model="deptForm.name" placeholder="姓名"></el-input>
+				<el-form-item prop="parentDepartment" label="上级部门">
+					<el-tree-select
+						v-model="deptForm.parentDepartment"
+						:data="tableData"
+						check-strictly
+						:props="{ value: 'dId', label: 'department' }"
+						:render-after-expand="false"
+					/>
+					<el-input v-model="deptForm.parentDepartment" placeholder="上级部门"></el-input>
 				</el-form-item>
-				<el-form-item prop="password" label="密码">
-					<el-input
-						type="password"
-						v-model="deptForm.password"
-						placeholder="8位以上的数字/字母组成"
-						show-password
-						autocomplete="new-password"
-					>
-					</el-input>
+				<el-form-item prop="dDescrible" label="描述">
+					<el-input v-model="deptForm.password" :rows="2" type="textarea" placeholder="描述"> </el-input>
 				</el-form-item>
-				<el-form-item prop="phone" label="电话">
-					<el-input v-model="deptForm.phone" placeholder="电话"></el-input>
-				</el-form-item>
-				<el-form-item prop="email" label="电子邮箱">
-					<el-input v-model="deptForm.email" placeholder="电子邮箱"></el-input>
-				</el-form-item>
-				<el-form-item prop="dId" label="部门">
-					<el-input v-model="deptForm.dId"></el-input>
-				</el-form-item>
-				<el-form-item prop="rId" label="角色">
-					<el-input v-model="deptForm.rId"></el-input>
+				<el-form-item prop="remarks" label="备注">
+					<el-input v-model="deptForm.phone" :rows="2" type="textarea" placeholder="备注"></el-input>
 				</el-form-item>
 			</el-form>
 			<template #footer>
