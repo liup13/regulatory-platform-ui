@@ -12,7 +12,6 @@
 			<el-table-column label="操作" width="260" fixed="right">
 				<template #default="scope">
 					<el-button size="small" @click="openUpdate(scope.row)">修改</el-button>
-					<el-button size="small" @click="onOpenMenu(scope.row)">权限维护</el-button>
 					<el-popconfirm title="你确定要删除该用户吗?" @confirm="deleteRow(scope.row)">
 						<template #reference>
 							<el-button size="small">删除</el-button>
@@ -41,7 +40,7 @@
 			destroy-on-close
 			@close="closeUser"
 		>
-			<el-form ref="userFormRef" :model="userForm" :rules="userRules" size="large">
+			<el-form ref="userFormRef" :model="userForm" :rules="userRules" size="large" label-width="100px">
 				<el-form-item prop="account" label="账号">
 					<el-input v-model="userForm.account" placeholder="账号"></el-input>
 				</el-form-item>
@@ -65,10 +64,18 @@
 					<el-input v-model="userForm.email" placeholder="电子邮箱"></el-input>
 				</el-form-item>
 				<el-form-item prop="dId" label="部门">
-					<el-input v-model="userForm.dId"></el-input>
+					<el-tree-select
+						v-model="userForm.dId"
+						:data="deptData"
+						check-strictly
+						:props="{ value: 'dId', label: 'department' }"
+						:render-after-expand="false"
+					/>
 				</el-form-item>
 				<el-form-item prop="rId" label="角色">
-					<el-input v-model="userForm.rId"></el-input>
+					<el-select v-model="userForm.rId">
+						<el-option v-for="e in roleData" :value="e.rId" :label="e.rName" :key="e.rId"></el-option>
+					</el-select>
 				</el-form-item>
 			</el-form>
 			<template #footer>
@@ -84,11 +91,15 @@
 <script setup name="user">
 import { reactive, ref, onMounted } from "vue";
 import { userList, userAdd, userUpdate, userDelete } from "@/api/user";
+import { roleList } from "@/api/role";
+import { deptList } from "@/api/dept";
 import Search from "@/views/user/search.vue";
 
 //页面加载完成
 onMounted(async () => {
 	queryUser();
+	queryRole();
+	queryDept();
 });
 
 //搜索
@@ -116,10 +127,35 @@ const queryUser = async () => {
 		});
 	}
 };
-
-//打开权限配置
-const onOpenMenu = () => {
-	console.log("===");
+const roleData = ref([]);
+const queryRole = async () => {
+	const { data } = await roleList({
+		current: 1,
+		size: 100
+	});
+	if (data.code == 1) {
+		roleData.value = data.data.records;
+	} else {
+		ElMessage({
+			message: data.message,
+			type: "warning"
+		});
+	}
+};
+const deptData = ref([]);
+const queryDept = async () => {
+	const { data } = await deptList({
+		current: 1,
+		size: 100
+	});
+	if (data.code == 1) {
+		deptData.value = data.data.records;
+	} else {
+		ElMessage({
+			message: data.message,
+			type: "warning"
+		});
+	}
 };
 
 // 定义 formRef（校验规则）

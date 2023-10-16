@@ -45,7 +45,7 @@ const loginRules = reactive({
 });
 
 const loading = ref(false);
-const loginForm = reactive({ account: "", password: "" });
+const loginForm = reactive({ account: "admin", password: "qazwsxedc" });
 const login = formEl => {
 	if (!formEl) return;
 	formEl.validate(async valid => {
